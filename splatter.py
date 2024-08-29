@@ -154,9 +154,6 @@ class Gaussian3ds(nn.Module):
         grad = grad[_mask]
         print("DELETE: {} Gaussians".format((~_mask).sum()))
         # 2. clone or split
-
-        print("grad aggregation", grad_aggregation)
-        grad_aggregation = "max"
         
         if grad_aggregation == "max":
             densify_mask = grad.abs().max(-1)[0] > grad_thresh
@@ -174,8 +171,10 @@ class Gaussian3ds(nn.Module):
             split_mask = scale_norm > taus
             clone_mask = scale_norm <= taus
             print("shapes", split_mask.shape, densify_mask.shape, clone_mask.shape)
-            split_mask = split_mask & densify_mask
-            clone_mask = clone_mask & densify_mask
+
+            # split_mask = split_mask & densify_mask
+            # clone_mask = clone_mask & densify_mask
+            use_clone = use_split = False
 
             if clone_mask.any() and use_clone:
                 cloned_pos = self.pos[clone_mask].clone().detach()
