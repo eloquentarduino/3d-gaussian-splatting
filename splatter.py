@@ -155,6 +155,9 @@ class Gaussian3ds(nn.Module):
         print("DELETE: {} Gaussians".format((~_mask).sum()))
         # 2. clone or split
 
+        print("grad aggregation", grad_aggregation)
+        grad_aggregation = "max"
+        
         if grad_aggregation == "max":
             densify_mask = grad.abs().max(-1)[0] > grad_thresh
         else:
