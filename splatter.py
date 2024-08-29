@@ -170,6 +170,7 @@ class Gaussian3ds(nn.Module):
             scale_norm = self.scale.norm(dim=-1) if scale_activation == "abs" else self.scale.exp().norm(dim=-1)
             split_mask = scale_norm > taus
             clone_mask = scale_norm <= taus
+            print("shapes", split_mask.shape, densify_mask.shape, clone_mask.shape)
             split_mask = split_mask & densify_mask
             clone_mask = clone_mask & densify_mask
 
