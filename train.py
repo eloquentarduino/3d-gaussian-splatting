@@ -159,7 +159,7 @@ class Trainer:
             # adaptive_number = (self.accum_max_grad.abs().max(-1)[0] > 0.0002).sum()
             # adaptive_ratio = adaptive_number / grad[..., 0].numel()
             self.gaussian_splatter.gaussian_3ds.adaptive_control(
-                self.accum_max_grad/(self.grad_counter+1e-3).unsqueeze(dim=-1), 
+                (self.accum_max_grad/(self.grad_counter+1e-3)).unsqueeze(dim=-1), 
                 taus=opt.split_thresh, 
                 delete_thresh=opt.delete_thresh, 
                 scale_activation=gaussian_splatter.scale_activation,
